@@ -1,8 +1,9 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const transactionController = require("./controller/transaction")
 const app = express()
-const port = 8000
+const port = process.env.SERVER_PORT || 8080
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
