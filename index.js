@@ -1,23 +1,18 @@
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
-const transactionController = require("./controller/transaction")
+const transactionRoutes = require('./routes/transaction')
 const app = express()
 const port = process.env.SERVER_PORT || 8080
 
+// middleware to control request HTTP
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/transactions", transactionController.getAllTransaction)
+//grouping transaction routes
+app.use("/transactions", transactionRoutes)
 
-app.get("/transactions/:id", transactionController.getTransactionById)
-
-app.post("/transactions", transactionController.insertNewTransaction)
-
-app.put("/transactions/:id", transactionController.updateTransaction)
-
-app.delete("/transactions/:id", transactionController.deleteTransaction)
-
+// start server
 app.listen(port, () => {
     console.log(`server started at localhost:${port}....`)
 })
