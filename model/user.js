@@ -39,8 +39,25 @@ const getUserById = (id) => {
     })
 }
 
+const updateUser = (id, data) => {
+    return new Promise((resolve, reject) => {
+        const querySql = `update users set name = ?, address = ?, phone = ? where id = ${id}`
+        console.log(data.name)
+        db.query(querySql, [data.name, data.address, data.phone], (error, result) => {
+            if (error) {
+                console.log("reject", result)
+                reject(result)
+            } else {
+                console.log("resolve ", result)
+                resolve(result)
+            }
+        })
+    })
+}
+
 module.exports = {
     getAllUsers,
     getUserById,
-    insertNewUser
+    insertNewUser,
+    updateUser
 }

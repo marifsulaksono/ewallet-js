@@ -52,8 +52,33 @@ const getUserById = async (req, res) => {
     }
 }
 
+const updateUser = async (req, res) => {
+    try {
+        const id = req.params.id
+        const userCheck = await usersModel.getUserById(id)
+        if (!userCheck) {
+            return response(404, "", `users ${id} not found`, res)
+        }
+
+        const users = { ...req.body }
+        const result = await usersModel.updateUser(id, users)
+        if (!result) {
+            return response(500, "", "update data error", res)
+        }
+
+        const data = {
+            id: id
+        }
+        response(200, data, `success update user ${id}`, res)
+    } catch (error) {
+        console.log(error)
+        return response(500, "", error, res)
+    }
+}
+
 module.exports = {
     getAllUsers,
     insertNewUser,
-    getUserById
+    getUserById,
+    updateUser
 }
