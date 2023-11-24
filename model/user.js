@@ -13,6 +13,20 @@ const getAllUsers = () => {
     })
 }
 
+const insertNewUser = (data) => {
+    return new Promise((resolve, reject) => {
+        const querySql = `insert into users set ?`
+        db.query(querySql, data, (error, result) => {
+            if (error) {
+                reject(result)
+            } else {
+                resolve(result)
+            }
+        })
+    })
+}
+
 module.exports = {
-    getAllUsers
+    getAllUsers,
+    insertNewUser
 }

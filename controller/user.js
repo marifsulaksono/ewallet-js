@@ -15,6 +15,29 @@ const getAllUsers = async (req, res) => {
     }
 }
 
+const insertNewUser = async (req, res) => {
+    try {
+        const users = { ...req.body }
+        if (!users.username || !users.password || !users.name || !users.address || !users.phone) {
+            return response(400, "", "please check your input!", res)
+        }
+
+        const result = await usersModel.insertNewUser(users)
+        if (!result) {
+            return response(500, "", "insert data error", res)
+        }
+
+        const data = {
+            id: result.insertId
+        }
+        response(201, data, "success insert new transction", res)
+    } catch (error) {
+        console.log(error)
+        return response(500, "", error, res)
+    }
+}
+
 module.exports = {
-    getAllUsers
+    getAllUsers,
+    insertNewUser
 }
