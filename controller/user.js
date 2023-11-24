@@ -56,7 +56,7 @@ const updateUser = async (req, res) => {
     try {
         const id = req.params.id
         const userCheck = await usersModel.getUserById(id)
-        if (!userCheck) {
+        if (userCheck.length === 0) {
             return response(404, "", `users ${id} not found`, res)
         }
 
@@ -76,9 +76,30 @@ const updateUser = async (req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    try {
+        const id = req.params.id
+        const userCheck = await usersModel.getUserById(id)
+        if (userCheck.length === 0) {
+            return response(404, "", `user ${id} is not found`, res)
+        }
+
+        const result = await usersModel.deleteUser(id)
+        if (!result) {
+            return response(500, "", "delete user error")
+        }
+
+        response(200, "", `success delete user ${id}`, res)
+    } catch (error) {
+        console.log(error)
+        return response(500, "", error, res)
+    }
+}
+
 module.exports = {
     getAllUsers,
     insertNewUser,
     getUserById,
-    updateUser
+    updateUser,
+    deleteUser
 }
