@@ -31,6 +31,10 @@ const getTransactionById = async (req, res) => {
 const insertNewTransaction = async (req, res) => {
     try {
         const transaction = { ...req.body }
+        if (!transaction.user_id || !transaction.status || !transaction.amount || !transaction.detail) {
+            return response(400, "", "kesalahan saat memasukkan data", res)
+        }
+
         const result = await transactionModel.insertNewTransaction(transaction)
         if (!result) {
             return response(500, "", "insert data error", res)
@@ -49,6 +53,10 @@ const insertNewTransaction = async (req, res) => {
 const updateTransaction = async (req, res) => {
     try {
         const transaction = { ...req.body }
+        if (!transaction.user_id || !transaction.status || !transaction.amount || !transaction.detail) {
+            return response(400, "", "kesalahan saat memasukkan data", res)
+        }
+
         const id = req.params.id
         const resultCheck = await transactionModel.getTransactionById(id)
         if (resultCheck.length == 0) {
