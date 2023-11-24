@@ -1,5 +1,4 @@
 const db = require("../config/connection")
-const response = require('../utils/response')
 
 const getAllTransaction = () => {
     return new Promise((resolve, reject) => {
