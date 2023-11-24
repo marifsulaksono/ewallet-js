@@ -37,7 +37,23 @@ const insertNewUser = async (req, res) => {
     }
 }
 
+const getUserById = async (req, res) => {
+    try {
+        const id = req.params.id
+        const result = await usersModel.getUserById(id)
+        if (!result) {
+            return response(404, "", `users ${id} not found`, res)
+        }
+
+        response(200, result, `Success get user ${id}`, res)
+    } catch (error) {
+        console.log(error)
+        return response(500, "", error, res)
+    }
+}
+
 module.exports = {
     getAllUsers,
-    insertNewUser
+    insertNewUser,
+    getUserById
 }

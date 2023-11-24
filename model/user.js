@@ -26,7 +26,21 @@ const insertNewUser = (data) => {
     })
 }
 
+const getUserById = (id) => {
+    return new Promise((resolve, reject) => {
+        const querySql = `select * from users where id = ${id}`
+        db.query(querySql, (error, result) => {
+            if (error) {
+                reject(result)
+            } else {
+                resolve(result)
+            }
+        })
+    })
+}
+
 module.exports = {
     getAllUsers,
+    getUserById,
     insertNewUser
 }
