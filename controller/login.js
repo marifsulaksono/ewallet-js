@@ -1,5 +1,6 @@
 const loginModel = require('../model/login')
 const response = require('../utils/response')
+const jwt = require('jsonwebtoken')
 
 const userLogin = async (req, res) => {
     try {
@@ -17,7 +18,13 @@ const userLogin = async (req, res) => {
             return response(401, "", "Username or password is wrong", res)
         }
 
-        response(200, "", "Login success", res)
+        const secreKey = process.env.SECRET_KEY_JWT
+        let token = jwt.sign({
+            username: username,
+            name: result[0].name
+        }, secreKey, { expiresIn: "1d" })
+
+        response(200, token, "Login success", res)
     } catch (error) {
         console.log(error)
         response(500, "", "internal server error", res)
